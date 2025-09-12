@@ -1,0 +1,6 @@
+node_modules
+*副本*
+.temp
+.cache
+docs/.vitepress/cache
+docs/.vitepress/dist
