@@ -80,7 +80,10 @@ export default defineConfig({
         ]
       }
     ],
-
+    socialLinks: [
+      { icon: 'github', link: 'https://github.com/BillGhifun/gogdns' },
+      { icon: 'docker', link: 'https://hub.docker.com/r/billghifun/gogdns' }
+    ]
     // socialLinks: [
     //   { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
     // ]
