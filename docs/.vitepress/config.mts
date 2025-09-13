@@ -73,7 +73,7 @@ export default defineConfig({
               //   ]
               // },
               { text: '规则', link: '/docs/docs-rules' },
-              { text: '工具', link: '/docs/docs-client-config' },
+              { text: '客户端配置文件', link: '/docs/docs-client-config' },
             ]
           },
           { text: '其他', link: '/main-others' },

@@ -15,13 +15,16 @@
 
 | 名称 | 功能 |
 |------|:----:|
-| `config/` | *规则* |
-| `db/` | *数据库* |
-| `group/` | *分组列表* |
-| `www/` | *网页文件* |
-| `cert/` | *证书* |
-| `Config.ini` | *程序配置文件* |
 | `gogdns` | *主程序* |
+| `workstation/` | *工作目录* |
+| `workstation/db/` | *数据库* |
+| `workstation/www/` | *网页文件* |
+| `workstation/cert/` | *证书* |
+| `workstation/group/` | *分组列表* |
+| `workstation/config/` | *规则* |
+| `workstation/cfg_client/` | *客户端配置文件* |
+| `workstation/Config.ini` | *程序配置文件* |
+
 
 ## Windows
 

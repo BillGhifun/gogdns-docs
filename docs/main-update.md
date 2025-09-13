@@ -2,6 +2,17 @@
 
 <!-- This page demonstrates some of the built-in markdown extensions provided by VitePress. -->
 
+## v0.6.55 20250907-032208 [Beta]
+
+###### 🔧核心功能优化
+- **重构主体逻辑代码**：
+     - 重构缓存逻辑
+     - 重构迭代查询代码
+     - 重构递归查询代码
+- **优化分流代码**：优化 SNI 相关代码，提升处理效率
+- **优化CDN优选**：CDN优选分组支持使用CNAME
+- **增加客户端列表**：支持按json配置单独客户端
+
 ## v0.6.20 20250821-080559 [Beta] - 历史版本
 
 ###### 🔧核心功能优化
