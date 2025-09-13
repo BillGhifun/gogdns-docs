@@ -7,10 +7,10 @@ export default defineConfig({
       host: '0.0.0.0' // 允许所有网络接口访问
     }
   },
-  base:"/gogdns/",
+  base:"/gogdns-docs/",
   title: "GOGDNS",
   description: "A VitePress Site",
-  head: [['link', { rel: 'icon', href: '/gogdns/logo-ico.svg' }]],
+  head: [['link', { rel: 'icon', href: './public/logo-ico.svg' }]],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
