@@ -10,7 +10,7 @@ export default defineConfig({
   base:"/gogdns-docs/",
   title: "GOGDNS",
   description: "A VitePress Site",
-  head: [['link', { rel: 'icon', href: './public/logo-ico.svg' }]],
+  head: [['link', { rel: 'icon', href: './logo-ico.svg' }]],
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
