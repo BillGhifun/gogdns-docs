@@ -1,4 +1,7 @@
-# 使用
+# 主程序配置文件
+
+<!-- This page demonstrates some of the built-in markdown extensions provided by VitePress. -->
+在程序根目录下的Config.ini
 
 <!-- This page demonstrates some of the built-in markdown extensions provided by VitePress. -->
 
@@ -11,20 +14,31 @@
 SERVER_UDP_ADDR = 0.0.0.0:53	# 服务器UDP地址[支持多地址]
 SERVER_TCP_ADDR = 0.0.0.0:53	# 服务器TCP地址[支持多地址]
 SERVER_DOT_ADDR = 0.0.0.0:853	# 服务器DoT地址[支持多地址]
+SERVER_DOQ_ADDR = 0.0.0.0:853	# 服务器DoQ地址[支持多地址]
 
 [monitor]
 MONITOR_HTTP_OPEN = 1       # 是否开启HTTP [默认0 0=不启用 1=启用]
+MONITOR_HTTP_IP = 0.0.0.0	# WEB-HTTP控制台IP
 MONITOR_HTTP_PORT = 5380    # WEB控制台HTTP端口 [默认5380]
+
 MONITOR_HTTPS_OPEN = 1      # 是否开启HTTPS [默认0 0=不启用 1=启用]
+MONITOR_HTTPS_IP = 0.0.0.0	# WEB-HTTPS控制台IP
 MONITOR_HTTPS_PORT = 4380   # WEB控制台HTTPS端口 [默认4380]
-MONITOR_IP = 0.0.0.0        # WEB控制台IP
+
+MONITOR_QUIC_OPEN = 1		# 是否开启QUIC [默认0 0=不启用 1=启用]
+MONITOR_QUIC_IP = 0.0.0.0	# QUIC控制台IP
+MONITOR_QUIC_PORT = 4380	# WEB-QUIC端口 [默认4380]
+MONITOR_QUIC_0RTT = 1		# WEB-QUIC是否开启0-RTT [默认0 0=不启用 1=启用]
+
 MONITOR_AUTH_USER =         # WEB控制台账户
 MONITOR_AUTH_PASS =         # WEB控制台密码
 MONITOR_CERT_FILE =         # "./"代表程序所在目录位置
 MONITOR_CERT_KEY =          # "./"代表程序所在目录位置
 MONITOR_MAC_VENDOR_DB =     # MAC厂商数据库 "./"代表程序所在目录位置
 MONITOR_DEBUG = 1           # WEB页面调试模式 [默认0 不使用WEB页面调试模式]
+MONITOR_WEB_PATH =          # WEB页面调试模式 WEBUI使用的文件夹
 SERVER_DOH_OPEN = 1         # 允许DoH服务
+SERVER_DOH3_OPEN = 1		# 允许DoH3服务
 SERVER_DOH_URL = dns-query  # 自定义DoH_URL 默认dns-query
 
 [dns]
@@ -33,9 +47,14 @@ POLLUTE_TEST_TIMES = 2          # 污染循环探测次数
 POLLUTE_TEST_TIMEOUT = 80       # 污染探测超时 最优介于30-200的值 [默认100]
 POLLUTE_TEST_POLLUTE_BETA = 0   # Beta 使用另一种形式的去污染逻辑 (此模式直接使用内置的国外上游DNS进行查询后返回得到的最后一条数据) [默认0 不启用]
 # 支持的上游DNS类型: doh://|http://|https://|tcp://|dot://|tls://|udp://以及ip:port形式的dns地址
-UPSTREAM_PTR =                  # 查询PTR记录时使用的DNS
+
+POLLUTE_GFW_OPEN = 1		    #是否使用GFWList方式来鉴别污染 0=不启用 1=启用 [默认0 不启用]
+POLLUTE_GFW_URL	=               #设置的GFWList更新链接
+
 UPSTREAM_LIST_ABROAD =          # 无污染组查询上游DNS
 UPSTREAM_LIST_INTERNAL =        # 查询上游DNS[全部使用国内DNS有助于解析到更近的IP]
+
+UPSTREAM_PTR =                  # 查询PTR记录时使用的DNS
 UPSTREAM_TIMEOUT = 1200         # 上游DNS超时
 
 DNS_CACHE_OPEN = 1              # 启用缓存 1=使用 0=不使用 [默认1]
@@ -45,6 +64,7 @@ DNS_CACHE_DB_DEL = 259200       # 自动删除过期缓存周期 [当前只在�
 DNS_TTL_DYNAMIC = 30            # 动态缓存TTL 7天604800 3天259200 介于0-16777215 [默认86400]
 DNS_TTL_FIXED = 300             # 返回的固定TTL值 介于0-86400的值 [默认60]
 DNS_TTL_AUTO_DYNAMIC = 1        # 自动动态权重TTL [默认0 不启用] 注:每权重为3600秒
+DNS_TTL_WEIGHT_TIME = 120       # 自动动态TTL权重单值 [默认5 范围5-3600]
 
 CLIENT_IP_ALLOWED = 1           # 客户端白名单 [默认1 启用]
 CLIENT_IP_BLOCKED = 1           # 客户端黑名单 [默认1 启用]
@@ -99,9 +119,10 @@ IPSORT_PING_TIMEOUT = 500       # Ping测速超时 [默认500] 介于100-2000
 IPSORT_DISTANCE_ENABLE = 1      # 启用IP坐标系排序
 IPSORT_DISTANCE_DB =            # ip2location-go的数据库文件 "./"代表程序所在目录位置
 # IPSORT_DISTANCE_DB =          # GeoLite2的数据库文件 "./"代表程序所在目录位置
-
 IPSORT_DISTANCE_LATITUDE =      # 本地纬度 当不设置时程序会自动获得本地经纬度坐标来使用
 IPSORT_DISTANCE_LONGITUDE =     # 本地经度 当不设置时程序会自动获得本地经纬度坐标来使用
+
+HIS_OPEN = 1                    # 记录历史记录
 HIS_ADD_CACHE_TIMEOUT = 1       # 当使用缓存时不记录因更新缓存超时的历史记录 0=记录 1=不记录 [默认 0 记录]
 HIS_ADD_OTHER = 1               # 是否在历史记录中记录SOA\NS\MX\TXT等响应内容 0=不启用 1=启用 [默认0 不启用]
 
@@ -118,13 +139,16 @@ DDNS_UPDATE_TIME = 0            # DDNS自动更新间隔 [默认间隔1小时 �
 SERVER_DOT_CERT_FILE =          # DoT服务使用的证书
 SERVER_DOT_CERT_KEY =           # DoT服务使用的KEY
 
+SERVER_DOQ_CERT_FILE =          # DoQ服务使用的证书
+SERVER_DOQ_CERT_KEY =           # DoQ服务使用的KEY
+SERVER_DOQ_0RTT = 1				# DoQ是否开启0-RTT [默认0 0=不启用 1=启用]
+
 SYNC_ALLOW = 0                  # 是否允许被同步 [0=不允许 1=允许 默认0]
 SYNC_SERVER =                   # 设置被同步的服务器IP
 SYNC_USR =                      # 设置被同步的服务器账号
 SYNC_PWD =                      # 设置被同步的服务器密码
 ```
 
-   
 ## 配置参数
 
 ### **server**
@@ -134,24 +158,32 @@ SYNC_PWD =                      # 设置被同步的服务器密码
 | SERVER_UDP_ADDR | 设置服务器监听DNS查询的UDP协议地址和端口。 | 默认值：0.0.0.0:53 支持绑定多个地址，用英文逗号分隔（如 0.0.0.0:53, ::0:53）。0.0.0.0 表示监听所有IPv4接口。 |
 | SERVER_TCP_ADDR | 设置服务器监听DNS查询的TCP协议地址和端口。 | 默认值：0.0.0.0:53 支持绑定多个地址，用英文逗号分隔。TCP是UDP的备用协议，用于响应超过512字节的报文。 |
 | SERVER_DOT_ADDR | 设置服务器监听DNS-over-TLS (DoT) 查询的地址和端口。 | 默认值：0.0.0.0:853 支持绑定多个地址，用英文逗号分隔。启用DoT加密传输需要配置 SERVER_DOT_CERT_FILE 和 SERVER_DOT_CERT_KEY。 |
-
+| SERVER_DOQ_ADDR | 设置服务器监听DNS-over-QUIC (DoQ) 查询的地址和端口。 | 默认值：0.0.0.0:853 支持绑定多个地址，用英文逗号分隔。启用DoT加密传输需要配置 SERVER_DOQ_CERT_FILE 和 SERVER_DOQ_CERT_KEY。 |
 
 ### **monitor**
 
 | 参数名 | 描述 | 备注 | 
 | :--- | :--- | :--- | 
 | MONITOR_HTTP_OPEN | 控制是否启用基于HTTP协议的Web监控控制台服务。 | 默认值：0 可选值： 0 (不启用), 1 (启用)。启用后可通过HTTP访问管理界面。 |
+| MONITOR_HTTP_IP | WEB-HTTP控制台IP | 默认值：0.0.0.0 |
 | MONITOR_HTTP_PORT | 设置HTTP监控控制台服务所监听的网络端口号。 | 默认值：5380 需确保此端口未被其他程序占用，并在防火墙中开放。 |
 | MONITOR_HTTPS_OPEN | 控制是否启用基于HTTPS（安全套接层）协议的Web监控控制台服务。 | 默认值：0 可选值： 0 (不启用), 1 (启用)。提供加密访问，更安全。需配置证书和私钥。 |
+| MONITOR_HTTPS_IP | WEB-HTTPS控制台IP | 默认值：0.0.0.0 |
 | MONITOR_HTTPS_PORT | 设置HTTPS监控控制台服务所监听的网络端口号。 | 默认值：4380 常用端口为 443，若使用默认端口需确保无冲突。 |
-| MONITOR_IP | 指定Web控制台服务绑定的本地网络接口IP地址。 | 默认值：0.0.0.0 0.0.0.0 表示监听所有网卡地址。设置为 127.0.0.1 可限制仅本机访问，增强安全性。 |
+| MONITOR_QUIC_OPEN | 是否开启QUIC | 默认0 0=不启用 1=启用 |
+| MONITOR_QUIC_IP | QUIC控制台IP | 默认值：0.0.0.0 |
+| MONITOR_QUIC_PORT | WEB-QUIC端口 | 默认值：4380 |
+| MONITOR_QUIC_0RTT | WEB-QUIC是否开启0-RTT | 默认0 0=不启用 1=启用 |
+| ~~MONITOR_IP~~ | ~~指定Web控制台服务绑定的本地网络接口IP地址。~~ | ~~默认值：0.0.0.0 0.0.0.0 表示监听所有网卡地址。设置为 127.0.0.1 可限制仅本机访问，增强安全性。~~ |
 | MONITOR_AUTH_USER | 为访问Web控制台设置身份验证的用户名。 | 留空则表示允许匿名访问，无需用户名密码，存在安全风险。 |
 | MONITOR_AUTH_PASS | 为访问Web控制台设置身份验证的密码。 | 留空则表示允许匿名访问，无需用户名密码，存在安全风险。需与 MONITOR_AUTH_USER 配对使用。 |
 | MONITOR_CERT_FILE | 指定HTTPS服务所需的SSL/TLS证书文件路径。 | 可使用绝对路径或相对于程序运行目录的路径（./）。必须与 MONITOR_CERT_KEY 配对使用。 |
 | MONITOR_CERT_KEY | 指定HTTPS服务所需的SSL/TLS私钥文件路径。 | 可使用绝对路径或相对于程序运行目录的路径（./）。必须与 MONITOR_CERT_FILE 配对使用。 |
 | MONITOR_MAC_VENDOR_DB | 指定一个数据库文件，用于将客户端的MAC地址解析为对应的设备厂商名称。 | 此功能用于在监控页面中更友好地显示客户端设备信息（如：Apple, Inc.）。 |
 | MONITOR_DEBUG | 控制Web控制台页面是否启用调试模式。 | 默认值：0 可选值： 0 (关闭), 1 (开启)。调试模式会显示更多底层信息，建议生产环境关闭。 |
+| MONITOR_WEB_PATH | WEB页面调试模式 WEBUI使用的文件夹 |  |
 | SERVER_DOH_OPEN | 控制是否启用DNS-over-HTTPS (DoH) 服务。 | 此参数虽位于 [monitor] 章节，但功能是控制DoH服务器的开关，而非监控功能。 |
+| SERVER_DOH3_OPEN | 控制是否启用DNS-over-HTTPS (DoH3) 服务。 | 此参数虽位于 [monitor] 章节，但功能是控制DoH3服务器的开关，而非监控功能。 |
 | SERVER_DOH_URL | 自定义DoH服务的查询端点（URL路径）。 | 默认值：dns-query 客户端请求的完整URL为：https://你的服务器地址:端口/此参数值。 |
 
 
@@ -163,6 +195,8 @@ SYNC_PWD =                      # 设置被同步的服务器密码
 | POLLUTE_TEST_TIMES | 设置对每个查询进行污染检测的循环次数。 | 默认值：2 次数越多，判断越准确，但会增加查询延迟和开销。 |
 | POLLUTE_TEST_TIMEOUT | 设置污染探测请求的超时时间（毫秒）。 | 默认值：80 建议值在 30 - 200 之间。超时时间影响去污染判断的响应速度。 |
 | POLLUTE_TEST_POLLUTE_BETA | 启用实验性的Beta去污染逻辑。 | 默认值：0 可选值： 0 (禁用), 1 (启用)。启用后，将直接使用内置的国外上游DNS查询结果作为最终答案。 |
+| POLLUTE_GFW_OPEN | 是否使用GFWList方式来鉴别污染 | 默认值：0 0=不启用 1=启用 |
+| POLLUTE_GFW_URL | 设置的GFWList更新链接 | |
 | UPSTREAM_PTR | 专门用于查询PTR记录（反向DNS解析）的上游DNS服务器。 | 留空则使用常规的上游DNS进行PTR查询。 |
 | UPSTREAM_LIST_ABROAD | 定义一组“无污染”的上游DNS服务器列表，主要用于检测和应对DNS污染。 | 通常配置为国外的、可靠的DNS服务器（如 tls://8.8.8.8）。支持多种协议。 |
 | UPSTREAM_LIST_INTERNAL | 定义常规查询所使用的上游DNS服务器列表，通常为国内DNS。 | 使用国内DNS有助于解析到更近、更快的CDN IP地址。支持多种协议。 |
@@ -173,6 +207,7 @@ SYNC_PWD =                      # 设置被同步的服务器密码
 | DNS_TTL_DYNAMIC | 设置缓存中动态调整的TTL最大值（秒）。 | 默认值：86400 (1天) 实际缓存时间将取上游返回的TTL和此值中的较小者。 |
 | DNS_TTL_FIXED | 设置一个固定的TTL值，所有响应中的TTL都将被改写为此值。 | 默认值：60 介于 0 - 86400 之间。设置为 0 则禁用固定TTL，使用原始TTL。 |
 | DNS_TTL_AUTO_DYNAMIC | 控制是否启用自动动态权重TTL。 | 默认值：0 可选值： 0 (禁用), 1 (启用)。一种复杂的TTL管理策略，每权重为3600秒。 |
+| DNS_TTL_WEIGHT_TIME | 自动动态TTL权重单值 | 默认：5 范围5-3600 |
 | CLIENT_IP_ALLOWED | 控制是否启用客户端IP白名单功能。 | 默认值：1 可选值： 0 (禁用), 1 (启用)。启用后，仅允许白名单中的IP查询。 |
 | CLIENT_IP_BLOCKED | 控制是否启用客户端IP黑名单功能。 | 默认值：1 可选值： 0 (禁用), 1 (启用)。启用后，将拒绝黑名单中的IP查询。 |
 | DNS_QUERY_METHOD | 设置DNS服务器的核心运作方式。 | 默认值：0 可选值： 0 (迭代查询), 1 (递归查询)。迭代查询效率更高，递归查询更兼容传统。 |
@@ -231,6 +266,7 @@ SYNC_PWD =                      # 设置被同步的服务器密码
 | IPSORT_DISTANCE_DB | 指定IP地理定位数据库文件（如IP2Location或MaxMind格式）的路径。 | ./ 代表程序所在目录。此数据库用于将IP地址映射到经纬度坐标，是距离排序的基础。 |
 | IPSORT_DISTANCE_LATITUDE | 手动设置本地的纬度坐标。 | 留空时，程序将尝试自动获取本地的经纬度。手动设置可避免自动获取不准或失败的问题。 |
 | IPSORT_DISTANCE_LONGITUDE | 手动设置本地的经度坐标。 | 留空时，程序将尝试自动获取本地的经纬度。需与 IPSORT_DISTANCE_LATITUDE 成对设置。 |
+| HIS_OPEN | 记录历史记录 | 默认值：1 |
 | HIS_ADD_CACHE_TIMEOUT | 控制是否在历史记录中记录因更新缓存而触发的超时查询。 | 默认值：0 可选值： 0 (记录), 1 (不记录)。为避免历史记录被缓存更新请求刷屏，可设置为 1。 |
 | HIS_ADD_OTHER | 控制是否在历史记录中记录SOA、NS、MX、TXT等非A/AAAA类型的响应结果。 | 默认值：0 可选值： 0 (不记录), 1 (记录)。保持默认可让历史记录更简洁，专注于IP查询。 |
 | COLLECTOR_BYPASS_ENABLE | 实验性功能，控制是否启用SNI与漫游阻断收集器。 | 默认值：0 可选值： 0 (禁用), 1 (启用)。启用后会自动探测IP是否被屏蔽并记录，用于完善Bypass规则。 |
@@ -243,6 +279,9 @@ SYNC_PWD =                      # 设置被同步的服务器密码
 | DDNS_UPDATE_TIME | 设置DDNS自动更新任务的执行间隔时间（秒）。 | 默认值：3600 (1小时) 设置为 0 则禁用自动更新。有效范围应大于3600秒且小于86400秒（1天），否则使用默认值。 |
 | SERVER_DOT_CERT_FILE | 指定DNS-over-TLS (DoT) 服务使用的SSL证书文件路径。 | ./ 代表程序所在目录。必须与 SERVER_DOT_CERT_KEY 配对使用。 |
 | SERVER_DOT_CERT_KEY | 指定DNS-over-TLS (DoT) 服务使用的SSL私钥文件路径。 | ./ 代表程序所在目录。必须与 SERVER_DOT_CERT_FILE 配对使用。 |
+| SERVER_DOQ_CERT_FILE | 指定DNS-over-QUIC (DoQ) 服务使用的SSL证书文件路径。 | ./ 代表程序所在目录。必须与 SERVER_DOQ_CERT_KEY 配对使用。 |
+| SERVER_DOQ_CERT_KEY | 指定DNS-over-QUIC (DoQ) 服务使用的SSL私钥文件路径。 | ./ 代表程序所在目录。必须与 SERVER_DOQ_CERT_FILE 配对使用。 |
+| SERVER_DOQ_0RTT | DoQ是否开启0-RTT | 默认0 0=不启用 1=启用 |
 | SYNC_ALLOW | 控制是否允许其他服务器从本机同步数据（如收集器规则、缓存等）。 | 默认值：0 可选值： 0 (不允许), 1 (允许)。 |
 | SYNC_SERVER | 设置要主动同步数据的目标服务器地址。 | 用于将本机的数据（如收集结果）推送到指定的中央服务器。 |
 | SYNC_USR | 设置同步目标服务器所需的认证用户名。 | 如果目标服务器需要认证，则必须设置此项。 |

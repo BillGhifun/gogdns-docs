@@ -2,6 +2,17 @@
 
 <!-- This page demonstrates some of the built-in markdown extensions provided by VitePress. -->
 
+## v0.6.62 20251215-130301 [Beta]
+
+###### 🔧核心功能优化
+- **增加DNSSEC支持**
+- **定期清理过期缓存数据**
+- **优化关闭缓存时设置污染、SNI、DNSSEC等标志的逻辑**
+- **优化SNI、漫游逻辑**
+- **增加使用GFWList去污染逻辑**
+- **可使用命令行更新GFWList**
+- **优化日志输出**
+
 ## v0.6.55 20250907-032208 [Beta]
 
 ###### 🔧核心功能优化

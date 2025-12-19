@@ -18,26 +18,75 @@ GOGDNS 是一款使用 Go 语言构建的轻量级私有 DNS 服务器软件。�
 - ARM架构设备（如树莓派）
 - Docker容器化环境   
 
-支持协议：
 <!-- | 功能 | 描述 | 状态 |
 |------|------|:----:|
 | **用户登录** | 支持邮箱和手机号登录 | &#x2705; |
 | *密码重置* | 通过邮箱重置密码 | &#x26a0;&#xfe0f; |
 | `API接口` | RESTful API 设计 | &#x2705; |
 | [文档链接](https://example.com) | 查看详细文档 | &#x1f4d6; | -->
-
 <!-- &#x2705; &#x2714; &#x2611; -->
 <!-- &#x274C; &#x2716; -->
+<!-- | `DoQ` | &#x274C; | -->
+<!-- | &#x1F30F; [文档链接](https://example.com) | -->
 
+<div style="display: flex; justify-content: space-around;">
+<div>
+
+支持的协议：
 | 功能 | 支持 |
 |------|:----:|
 | `UDP` | &#x2705; |
 | `TCP` | &#x2705; |
 | `DoT` | &#x2705; |
 | `DoH` | &#x2705; |
+| `DoH3` | &#x2705; |
 | `DoQ` | &#x2705; |
-<!-- | `DoQ` | &#x274C; | -->
-<!-- | &#x1F30F; [文档链接](https://example.com) | -->
+
+</div>
+<div>
+
+支持的上游DNS类型：
+| 功能 | 支持 |
+|------|:----:|
+| `UDP` | &#x2705; |
+| `TCP` | &#x2705; |
+| `DoT` | &#x2705; |
+| `DoH` | &#x2705; |
+| `DoH3` | &#x2705; |
+| `DoQ` | &#x2705; |
+
+</div>
+</div>
+
+<div style="display: flex; justify-content: space-around;">
+<div>
+
+支持的扩展：
+
+| 功能 | 支持 |
+|------|:----:|
+| `ECS` | &#x2705; |
+| `DNSSEC` | &#x2705; |
+
+</div>
+</div>
+
+<!-- <div style="display: flex; justify-content: space-around;">
+<div>
+| 功能 | 描述 |
+| :--- | :--- |
+| **加粗** | 使用双星号 |
+| *斜体* | 使用单星号 |
+| `代码` | 使用反引号 |
+</div>
+<div>
+| 操作 | 快捷键 |
+| :--- | :--- |
+| 保存文件 | `Ctrl + S` |
+| 复制行 | `Shift + Alt + ↓` |
+| 查找 | `Ctrl + F` |
+</div>
+</div> -->
 
 <!-- ## 项目背景
 

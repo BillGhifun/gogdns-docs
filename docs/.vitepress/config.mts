@@ -11,6 +11,7 @@ export default defineConfig({
   title: "GOGDNS",
   description: "A VitePress Site",
   head: [['link', { rel: 'icon', href: './logo-ico.svg' }]],
+  appearance: false,  // 完全禁用深色模式切换
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -34,9 +35,16 @@ export default defineConfig({
         items: [
           { text: '介绍', link: '/main-Introduction' },
           { text: '安装', link: '/main-install' },
-          { text: '使用', link: '/main-usage' },
-          { text: '更新日志', link: '/main-update' },
-          // { text: '文档', link: '/api-examples' },
+          // { text: '使用', link: '/main-usage' },
+          { 
+            text: '文档', 
+            collapsed: true, // 默认展开此分组 (可选)
+            items: [
+              { text: '主程序配置文件', link: '/docs/docs-main-config' },
+              { text: '客户端配置文件', link: '/docs/docs-client-config' },
+              { text: '规则', link: '/docs/docs-rules' },
+            ]
+           },
           {
             text: '管理页面',
             collapsed: true, // 默认展开此分组 (可选)
@@ -61,21 +69,23 @@ export default defineConfig({
               { text: '工具', link: '/usage/docs-tools' },
             ]
           },
-                    {
-            text: '文档',
-            collapsed: true, // 默认展开此分组 (可选)
-            items: [
-              // {
-              //   text: '规则',
-              //   items: [
-              //     { text: '首页', link: '/rule-index' },
-              //     { text: '历史记录', link: '/rule-his' },
-              //   ]
-              // },
-              { text: '规则', link: '/docs/docs-rules' },
-              { text: '客户端配置文件', link: '/docs/docs-client-config' },
-            ]
-          },
+          { text: '更新日志', link: '/main-update' },
+          // { text: '文档', link: '/api-examples' },
+          // {
+          //   text: '文档',
+          //   collapsed: true, // 默认展开此分组 (可选)
+          //   items: [
+          //     // {
+          //     //   text: '规则',
+          //     //   items: [
+          //     //     { text: '首页', link: '/rule-index' },
+          //     //     { text: '历史记录', link: '/rule-his' },
+          //     //   ]
+          //     // },
+          //     { text: '规则', link: '/docs/docs-rules' },
+          //     { text: '客户端配置文件', link: '/docs/docs-client-config' },
+          //   ]
+          // },
           { text: '其他', link: '/main-others' },
         ]
       }

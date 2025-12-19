@@ -37,7 +37,7 @@
 ## Docker
 
 ```
-docker run -d --name gogdns --cap-add=NET_BIND_SERVICE --restart=unless-stopped -p 5380:5380/tcp -p 4380:4380/tcp -p 53:53/tcp -p 53:53/udp --net=host -v /etc/localtime:/etc/localtime -v /path/gogdns:/gogdns/workstation billghifun/gogdns:test-alpha
+docker run -d --name gogdns --cap-add=NET_BIND_SERVICE --cap-add=NET_ADMIN --restart=unless-stopped -p 5380:5380/tcp -p 4380:4380/tcp -p 53:53/tcp -p 53:53/udp --net=host -v /var/run/docker.sock:/var/run/docker.sock -v /etc/localtime:/etc/localtime:ro -v /path/gogdns:/gogdns/workstation billghifun/gogdns:test-alpha
 ```
 
 ## OpenWRT
