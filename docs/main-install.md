@@ -2,6 +2,8 @@
 
 <!-- This page demonstrates some of the built-in markdown extensions provided by VitePress. -->
 
+**请从 [**此处**](https://github.com/BillGhifun/gogdns-update/releases) 获取GOGDNS的最新版本。**
+
 ## 程序目录结构
 
 <!-- gogdns/ *根目录*   
@@ -22,7 +24,6 @@
 | `workstation/cert/` | *证书* |
 | `workstation/group/` | *分组列表* |
 | `workstation/config/` | *规则* |
-| `workstation/cfg_client/` | *客户端配置文件* |
 | `workstation/Config.ini` | *程序配置文件* |
 
 
@@ -34,173 +35,70 @@
 
 直接执行二进制程序。
 
-## Docker
+## Docker Cli
 
+```sh
+docker run -d \
+  --name gogdns \
+  --restart unless-stopped \
+  --network host \
+  --cap-add=NET_BIND_SERVICE \
+  --cap-add=NET_ADMIN \
+  -e TZ=Asia/Shanghai \
+  -e GOGDNS_BASE_PATH=/gogdns/workstation \
+  -v /var/run/docker.sock:/var/run/docker.sock:ro \
+  -v /opt/gogdns:/gogdns/workstation \
+  gogdns
 ```
-docker run -d --name gogdns --cap-add=NET_BIND_SERVICE --cap-add=NET_ADMIN --restart=unless-stopped -p 5380:5380/tcp -p 4380:4380/tcp -p 53:53/tcp -p 53:53/udp --net=host -v /var/run/docker.sock:/var/run/docker.sock -v /etc/localtime:/etc/localtime:ro -v /path/gogdns:/gogdns/workstation billghifun/gogdns:test-alpha
+
+参数详细说明：  
+-d: 后台运行容器。  
+--network host: 使用宿主机网络模式。这对 DNS 服务至关重要，不仅能提升性能，还能确保获取到真实的客户端请求 IP（避免 NAT 转换导致日志全显示为网关 IP）。  
+--cap-add=NET_BIND_SERVICE: 赋予容器权限以绑定宿主机的低位端口（如 UDP/TCP 53 端口）。  
+--cap-add=NET_ADMIN: 赋予网络管理权限（为了满足 DNS 服务的进阶网络需求）。  
+-v /var/run/docker.sock:/var/run/docker.sock:ro: 允许程序读取宿主机的容器状态（以只读方式），以便实现自动化的 DNS 解析。  
+-v /opt/gogdns:/gogdns/workstation: 将宿主机的/opt/gogdns目录挂载到容器内，使配置文件和日志在容器重启或删除后不会丢失。
+
+## Docker Cli
+
+创建文件docker-compose.yml
+
+```yaml
+version: "3.8"
+
+services:
+  gogdns:
+    image: billghifun/gogdns:latest  # 镜像名称
+    container_name: gogdns  # 容器名称
+    restart: unless-stopped  # 自动重启
+    # 权限优化：精简 Capability
+    cap_add:
+      - NET_BIND_SERVICE  # 网络管理权限 允许绑定 53 低位端口
+      - NET_ADMIN         # 如果不需要在容器内修改宿主机路由表，可以尝试去掉 NET_ADMIN 以增强安全性
+
+    # 网络模式
+    network_mode: host    # DNS 服务使用 host 模式性能最高，且避免了 NAT 转换带来的源 IP 丢失
+
+    # 环境变量
+    environment:
+      - TZ=Asia/Shanghai     # 推荐通过环境变量传递时区，配合 Dockerfile 中的 tzdata
+      - GOGDNS_BASE_PATH=/gogdns/workstation    # 环境变量设置基础路径
+
+    # 存储卷优化
+    volumes:
+      # Docker 守护进程访问
+      - /var/run/docker.sock:/var/run/docker.sock:ro  # 建议设为只读 (ro)
+      
+      # 数据目录映射
+      # 注意：宿主机路径建议使用绝对路径/path/gogdns
+      # 需要用户自行确认目录/path/gogdns存在
+      - /path/gogdns:/gogdns/workstation
+```
+运行
+```
+docker-compose up -d
 ```
 
 ## OpenWRT
 
-```plaintext
-# 首先把程序及所需文件复制到系统根目录
-/gogdns
-```
-
-**!*注: 为防止与OpenWRT内建DNS服务器的端口冲突，需要对GOGDNS配置文件中的参数SERVER_UDP_ADDR与SERVER_TCP_ADDR服务端口改为非53端口。**
-
-```plaintext
-# 建立脚本文件
-/etc/init.d/gogdns
-```
-
-```bash
-#!/bin/sh /etc/rc.common
-# GOGDNS service management script
-
-START=50
-STOP=89
-
-PROG="/gogdns/gogdns_amd64_linux"
-PIDFILE="/var/run/gogdns.pid"
-LOG_FILE="/var/log/gogdns.log"
-
-boot() {
-    start
-}
-
-start() {
-    echo "Starting GOGDNS service..."
-    
-    # 检查是否已经在运行
-    if [ -f "$PIDFILE" ] && kill -0 $(cat "$PIDFILE") 2>/dev/null; then
-        echo "GOGDNS is already running (PID: $(cat $PIDFILE))"
-        return 1
-    fi
-    
-    # 清理旧的日志文件
-    > "$LOG_FILE" 2>/dev/null || true
-    
-    # 使用重定向和后台运行，不使用nohup
-    $PROG > "$LOG_FILE" 2>&1 &
-    
-    # 保存PID
-    PID=$!
-    echo $PID > "$PIDFILE"
-    echo "GOGDNS service started with PID $PID"
-    
-    # 等待一下确认进程确实启动
-    sleep 2
-    if kill -0 $PID 2>/dev/null; then
-        echo "GOGDNS started successfully"
-        return 0
-    else
-        echo "GOGDNS may have failed to start, check $LOG_FILE for details"
-        rm -f "$PIDFILE"
-        return 1
-    fi
-}
-
-stop() {
-    echo "Stopping GOGDNS service..."
-    
-    # 首先尝试通过PID文件停止
-    if [ -f "$PIDFILE" ]; then
-        PID=$(cat "$PIDFILE")
-        if kill -0 $PID 2>/dev/null; then
-            # 先尝试正常终止
-            kill $PID 2>/dev/null && echo "Sent TERM signal to PID $PID"
-            
-            # 等待3秒让进程正常退出
-            for i in $(seq 1 3); do
-                if kill -0 $PID 2>/dev/null; then
-                    sleep 1
-                else
-                    break
-                fi
-            done
-            
-            # 如果进程还在运行，强制杀死
-            if kill -0 $PID 2>/dev/null; then
-                kill -9 $PID 2>/dev/null && echo "Forcefully killed PID $PID"
-            fi
-        fi
-        rm -f "$PIDFILE"
-    fi
-    
-    # 确保所有同名进程都被杀死
-    PIDS=$(ps | grep "$(basename "$PROG")" | grep -v grep | awk '{print $1}' 2>/dev/null || true)
-    if [ -n "$PIDS" ]; then
-        echo "Killing remaining processes: $PIDS"
-        for pid in $PIDS; do
-            kill -9 $pid 2>/dev/null || true
-        done
-    fi
-    
-    echo "GOGDNS service stopped"
-}
-
-restart() {
-    stop
-    sleep 2
-    start
-}
-
-status() {
-    if [ -f "$PIDFILE" ]; then
-        PID=$(cat "$PIDFILE")
-        if kill -0 $PID 2>/dev/null; then
-            echo "GOGDNS is running with PID $PID"
-            echo "Log file: $LOG_FILE"
-            return 0
-        else
-            echo "PID file exists but process $PID not found"
-            rm -f "$PIDFILE"
-            return 1
-        fi
-    else
-        # 检查是否在其他地方运行
-        PIDS=$(ps | grep "$(basename "$PROG")" | grep -v grep | awk '{print $1}' 2>/dev/null || true)
-        if [ -n "$PIDS" ]; then
-            echo "GOGDNS is running without PID file (PIDs: $PIDS)"
-            return 0
-        else
-            echo "GOGDNS is not running"
-            return 3
-        fi
-    fi
-}
-```
-
-```bash
-# 系统启动时运行
-/etc/init.d/gogdns enable
-
-# 启动服务
-/etc/init.d/gogdns start
-
-# 重启服务
-/etc/init.d/gogdns restart
-
-# 停止服务
-/etc/init.d/gogdns stop
-
-# 查看状态
-/etc/init.d/gogdns status
-
-# 检查是否启用成功
-/etc/init.d/gogdns enabled && echo "Enabled" || echo "Disabled"
-
-# 查看rc.d目录的链接
-ls -la /etc/rc.d/S*gogdns*
-
-```
-
-**端口转发设置**
-
-![端口转发](./assets/openwrt-port_forwarding.png "端口转发")
-
-
-<!-- ## More
-
-Check out the documentation for the [full list of markdown extensions](https://vitepress.dev/guide/markdown). -->
+参见[OpenWrt安装gogdns](./main-openwrt-ipk)

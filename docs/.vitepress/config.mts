@@ -40,13 +40,12 @@ export default defineConfig({
             text: '文档', 
             collapsed: true, // 默认展开此分组 (可选)
             items: [
-              { text: '主程序配置文件', link: '/docs/docs-main-config' },
-              { text: '客户端配置文件', link: '/docs/docs-client-config' },
+              { text: '配置文件', link: '/docs/docs-main-config' },
               { text: '规则', link: '/docs/docs-rules' },
             ]
-           },
+          },
           {
-            text: '管理页面',
+            text: '控制台页面',
             collapsed: true, // 默认展开此分组 (可选)
             items: [
               { text: '首页', link: '/usage/docs-index' },
@@ -69,6 +68,14 @@ export default defineConfig({
               { text: '工具', link: '/usage/docs-tools' },
             ]
           },
+          { 
+            text: '其他', 
+            collapsed: true, // 默认展开此分组 (可选)
+            items: [
+              { text: '浏览器插件', link: '/main-chrome-crx' },
+              { text: 'OpenWrt', link: '/main-openwrt-ipk' },
+            ]
+          },
           { text: '更新日志', link: '/main-update' },
           // { text: '文档', link: '/api-examples' },
           // {
@@ -86,7 +93,7 @@ export default defineConfig({
           //     { text: '客户端配置文件', link: '/docs/docs-client-config' },
           //   ]
           // },
-          { text: '其他', link: '/main-others' },
+          { text: '公共DNS', link: '/main-public-dns' },
         ]
       }
     ],
