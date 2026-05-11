@@ -6,7 +6,7 @@
 
 <!-- VitePress provides Syntax Highlighting powered by [Shiki](https://github.com/shikijs/shiki), with additional features like line-highlighting: -->
 
-![规则](../assets/docs-tools.png "规则")
+![工具](../assets/docs-tools.png "工具")
 
 **功能**
 

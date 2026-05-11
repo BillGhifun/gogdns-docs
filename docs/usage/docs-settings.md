@@ -1,4 +1,4 @@
-# 统计
+# 设置
 
 <!-- This page demonstrates some of the built-in markdown extensions provided by VitePress. -->
 
@@ -6,11 +6,11 @@
 
 <!-- VitePress provides Syntax Highlighting powered by [Shiki](https://github.com/shikijs/shiki), with additional features like line-highlighting: -->
 
-![规则](../assets/docs-chartpanel.png "规则")
+![设置](../assets/docs-settings.png "设置")
 
 **功能**
 
-用于查看客户端请求可视化数据。
+用于进行基础设置。
 
 <!-- ## More
 

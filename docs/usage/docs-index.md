@@ -7,6 +7,7 @@
 <!-- VitePress provides Syntax Highlighting powered by [Shiki](https://github.com/shikijs/shiki), with additional features like line-highlighting: -->
 
 ![管理页面](../assets/docs-index.png "后台首页")
+![管理页面](../assets/docs-index1.png "后台首页")
 
 **功能**
 

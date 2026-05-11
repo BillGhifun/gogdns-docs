@@ -6,7 +6,7 @@
 
 <!-- VitePress provides Syntax Highlighting powered by [Shiki](https://github.com/shikijs/shiki), with additional features like line-highlighting: -->
 
-![规则](../assets/docs-iptable.png "规则")
+![客户端列表](../assets/docs-iptable.png "客户端列表")
 
 **功能**
 
