@@ -21,11 +21,11 @@
     #41d1ff
   );
 
-  /*hero logo背景渐变色 */
+/* hero logo背景渐变色 - 纯天蓝由浓到淡的单色渐变 */
   --vp-home-hero-image-background-image: linear-gradient(
     -45deg,
-    #bd34fe 50%,
-    #47caff 50%
+    rgba(71, 202, 255, 0.8) 0%,   /* 天蓝色（80%不透明度） */
+    rgba(71, 202, 255, 0.2) 100%  /* 天蓝色（20%不透明度） */
   );
   --vp-home-hero-image-filter: blur(40px);
 }

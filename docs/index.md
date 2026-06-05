@@ -7,7 +7,7 @@ hero:
   name: '<i>GOGDNS</i>'
   # text: "<div style='color: red; font-size: 24px;'>这是个有 style 的随便写点</div>"
   # text: "<i>GOGDNS</i>"
-  tagline: 一个简易的私人DNS服务器
+  tagline: 私人DNS服务器
 
   #image:
     #light: /favicon.svg        # light 模式下显示的 logo
