@@ -46,3 +46,45 @@
 > 💡 **提示：**
 > * 想要磨砂感更强，可以适当调大 `--card-blur` 的像素值（如 `8px` 或 `12px`）。
 > * 如果更换了壁纸或 Logo，请确保图片存放在 `workstation\www\webui\` 目录下，或者修改 `url()` 内的相对路径。
+
+### 注：如果想完全使用自己制作的前端，可以启用WEB控制台调试模式：在配置文件中修改 `MONITOR_DEBUG=1` 并把自制的前端放在配置文件中参数 `MONITOR_WEB_PATH` 所指定的路径(默认为./www/)文件夹中。
+
+### 默认配置文件：workstation\www\config\config.json
+
+```json
+{
+  "system": {
+    "CLICK_OUTSIDE_MENU_CLOSE": true,
+    "SHOW_DONUT_CHART_ON_LOAD": true
+  },
+  "skin": {
+    "dark": {
+      "--load-blur": "3px",
+      "--load-alpha": "0.5",
+      "--card-alpha": "0.55",
+      "--card-blur": "4px",
+      "--wallpaper-blur": "none",
+      "--card-bg-rgb": "30, 41, 59",
+      "--sb-track-bg": "rgba(15, 23, 42, 0.85)",
+      "--sb-thumb-bg": "#3b82f6",
+      "--fallback-bg": "rgba(30, 41, 59, 1)",
+      "--logo": "url('../webui/logo.svg')",
+      "--wallpaper": "url('../webui/wallpaper.jpg')"
+    },
+    "light": {
+      "--load-blur": "3px",
+      "--load-alpha": "0.3",
+      "--card-alpha": "0.55",
+      "--card-blur": "3px",
+      "--wallpaper-blur": "none",
+      "--card-bg-rgb": "255, 255, 255",
+      "--sb-track-bg": "rgba(241, 245, 249, 0.7)",
+      "--sb-thumb-bg": "#3b82f6",
+      "--fallback-bg": "rgba(255, 255, 255, 1)",
+      "--logo": "url('../webui/logo.svg')",
+      "--wallpaper": "url('../webui/wallpaper.jpg')"
+    }
+  }
+}
+
+```

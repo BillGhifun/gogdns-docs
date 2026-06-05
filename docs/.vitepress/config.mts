@@ -111,6 +111,7 @@ export default defineConfig({
               { text: '日志', link: '/usage/docs-log' },
               { text: '统计', link: '/usage/docs-chartpanel' },
               { text: '工具', link: '/usage/docs-tools' },
+              { text: '自定义WEB UI', link: '/usage/docs-others' },
             ]
           },
           { 
