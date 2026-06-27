@@ -37,6 +37,12 @@
 
 ## Docker Cli
 
+#### 创建目录
+
+```sh
+sudo mkdir -p /opt/gogdns
+```
+
 ```sh
 docker run -d \
   --name gogdns \
@@ -48,7 +54,7 @@ docker run -d \
   -e GOGDNS_BASE_PATH=/gogdns/workstation \
   -v /var/run/docker.sock:/var/run/docker.sock:ro \
   -v /opt/gogdns:/gogdns/workstation \
-  gogdns
+  billghifun/gogdns:latest
 ```
 
 参数详细说明：  
@@ -64,8 +70,6 @@ docker run -d \
 创建文件docker-compose.yml
 
 ```yaml
-version: "3.8"
-
 services:
   gogdns:
     image: billghifun/gogdns:latest  # 镜像名称
@@ -92,7 +96,7 @@ services:
       # 数据目录映射
       # 注意：宿主机路径建议使用绝对路径/path/gogdns
       # 需要用户自行确认目录/path/gogdns存在
-      - /path/gogdns:/gogdns/workstation
+      - /opt/gogdns:/gogdns/workstation
 ```
 运行
 ```
